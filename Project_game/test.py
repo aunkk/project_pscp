@@ -1,14 +1,45 @@
 import pygame
 
-pygame.init() #start pygame
-pygame.display.set_caption("peenoi") #Title
+pygame.init()
 
-screen = pygame.display.set_mode((970, 720)) #screen size
+clock = pygame.time.Clock()
+FPS = 60
 
-running = True
-while running: #control game running
-    for event in pygame.event.get(): #check current event
+SCREEN_WIDTH = 1100
+SCREEN_HEIGHT = 700
+
+screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_WIDTH))
+pygame.display.set_caption("Parallax")
+
+bg_images = []
+for i in range(4):
+    bg_image = pygame.image.load(f"im/bg-{i}.png").convert_alpha()
+    bg_images.append(bg_image)
+bg_width = bg_images[0].get_width()
+def draw_bg():
+    for x in range(4):
+        speed = 1
+        for i in bg_images:
+            screen.blit(i, (x*bg_width - scroll*speed, 0))
+            speed += 0.2
+scroll = 0
+#game loop
+run = True
+while run:
+    
+    clock.tick(FPS)
+    
+    draw_bg()
+    key = pygame.key.get_pressed()
+    if key[pygame.K_LEFT] and scroll > 0:
+        scroll -= 5
+    if key[pygame.K_RIGHT]:
+        scroll += 5
+
+    for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            run = False
+    
+    pygame.display.update()
 
 pygame.quit()
