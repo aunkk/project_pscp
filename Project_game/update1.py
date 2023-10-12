@@ -4,7 +4,6 @@ clock = pygame.time.Clock()
 FPS = 60
 SCREEN_W = 1100
 SCREEN_H = 700
-BLACK = (255, 255, 255)
 
 screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
 pygame.display.set_caption("Ghost run to hell")
@@ -20,30 +19,16 @@ ghost = pygame.transform.scale(ghost, (120,120))
 # ghostrect = ghost.get_rect(m = (80, 300))
 GHOST_X_POS = 200
 
-# def draw_bg():
-#     for x in range(100000):
-#         speed = 1
-#         screen.blit(background, (x*bg_width - scroll, 0))#run in x
-#         speed += 2
-
-    # for y in range(10):
-    #     speed = 1
-    #     screen.blit(background, (0, y*bg_hight - upanddown))#run in y
-    #     speed += 2
 scroll = 0
-#upanddown = 0
 
 run = True
 while run:
-    # clock.tick(FPS)
-    # draw_bg()#call function
     key = pygame.key.get_pressed()
     if key[pygame.K_a] and scroll > 0:
         scroll -= 5
     if key[pygame.K_d]:
         scroll += 5
-# run = True
-# while run:
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
