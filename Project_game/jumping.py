@@ -119,10 +119,13 @@ def main():
 
     bird_group = pygame.sprite.Group()
 
-    y_position = 205
-    flappy = Bird(100, y_position)
+    flappy = Bird(100, 205)
 
     bird_group.add(flappy)
+
+    # weather response and city
+    response = "cloud"
+    city = "bangkok"
 
     while run:
         clock.tick(FPS)
@@ -144,7 +147,8 @@ def main():
             scroll_4 = 0
         elif abs(scroll_ground) > 800:
             scroll_ground = 0
-        scenes = select_bg("clear", "bangkok")
+
+        scenes = select_bg(response, city)
         draw_background(scenes, scroll_0, scroll_1, scroll_2, scroll_3, scroll_4)
         draw_foreground(scroll_ground)
 
