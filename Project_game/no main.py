@@ -29,12 +29,15 @@ last_obs = pygame.time.get_ticks() - obstacle_freq
 
 # weather response and city
 api_key = "e1c5932f6c96b34e1263878d1f8b7931"
-city = "Sydney"
+city = "Melbourn"
 url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
 res = requests.get(url).json()
 weather = res['weather'][0]['main']
-weather = "Clear"
 city = "bangkok"
+
+# loads button images
+button_img = pygame.image.load("project_game/media/restart.png")
+button_img = pygame.transform.scale(button_img, (100, 50))
 
 def select_bg(weather_res, city):
     """background images list selector"""
@@ -52,10 +55,16 @@ def select_bg(weather_res, city):
         bg_images = cloud_bg
     elif weather_res == "Rain":
         rain_bg = []
-        for i in range(3):
+        for i in range(4):
             bg_image = pygame.image.load(f"project_game/media/rain-{i}.png").convert_alpha()
             rain_bg.append(bg_image)
         bg_images = rain_bg
+    else:
+        clear_bg = []
+        for i in range(4):
+            bg_image = pygame.image.load(f"project_game/media/clear-{i}.png").convert_alpha()
+            clear_bg.append(bg_image)
+        bg_images = clear_bg
 
     if city == "bangkok":
         city_bg = pygame.image.load(f"project_game/media/buildings.png").convert_alpha()
@@ -89,6 +98,11 @@ def draw_foreground(scroll):
     foreground = pygame.image.load(f"project_game/media/platform.png").convert_alpha()
     for i in range(0, tiles):
         screen.blit(foreground, (i*800 + (scroll), 0))
+
+def reset_game():
+    obstacle_group.empty()
+    player.rect.x = 100
+    player.rect.y = 180
 
 # Player
 class Ghost(pygame.sprite.Sprite):
@@ -152,11 +166,37 @@ class obstacle(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
+# restsrt button
+class Button():
+    def __init__(self, x, y, image):
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+    
+    def draw(self):
+
+        action = False
+
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+
+        # check for mouse hover the button
+        if self.rect.collidepoint(pos) == True:
+            if pygame.mouse.get_pressed()[0] == True:
+                action = True
+
+        #draw button
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+
+        return action
+
 ghost_group = pygame.sprite.Group()
 obstacle_group = pygame.sprite.Group()
 
 player = Ghost(100, 205)
 ghost_group.add(player)
+
+button = Button(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, button_img)
 
 while run:
 
@@ -206,6 +246,13 @@ while run:
     #look for collision
     if pygame.sprite.groupcollide(ghost_group, obstacle_group, False, False) or player.rect.top < 0:
         game_over = True
+
+    # check for game over and reset
+    if game_over == True:
+        if button.draw() == True:
+            game_over = False
+            reset_game()
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
