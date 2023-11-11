@@ -25,6 +25,8 @@ scroll_4 = 0
 scroll_5 = 0
 scroll_ground = 0
 speed = 1
+score = 0
+font = pygame.font.Font("Project_game/media/PressStart2P-Regular.ttf", 10)
 obstacle_freq = 2000 #milliseconds
 last_obs = pygame.time.get_ticks() - obstacle_freq
 
@@ -106,10 +108,28 @@ def draw_foreground(scroll):
     for i in range(0, tiles):
         screen.blit(foreground, (i*800 + (scroll), 0))
 
+def count_score():
+    global score, font, speed, game_over, obstacle_freq
+    if game_over == False:
+        score += 1
+        if score%500 == 0:
+            speed += 0.5
+        if speed > 3:
+            obstacle_freq = 1500
+        elif speed > 6:
+            obstacle_freq = 1000
+        elif speed > 9:
+            obstacle_freq = 500
+    text = font.render("score: " + str(score), True, (0, 0, 0))
+    screen.blit(text, (680, 18))
+
 def reset_game():
+    global score, speed
     obstacle_group.empty()
     player.rect.x = 75
     player.rect.y = 180
+    score = 0
+    speed = 1
 
 # Player
 class Ghost(pygame.sprite.Sprite):
@@ -251,6 +271,9 @@ while run:
 
     # draw ground
     draw_foreground(scroll_ground)
+
+    # draw count score
+    count_score()
 
     #look for collision
     if pygame.sprite.groupcollide(ghost_group, obstacle_group, False, False) or player.rect.top < 0:
