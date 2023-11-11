@@ -22,6 +22,7 @@ scroll_1 = 0
 scroll_2 = 0
 scroll_3 = 0
 scroll_4 = 0
+scroll_5 = 0
 scroll_ground = 0
 speed = 1
 obstacle_freq = 2000 #milliseconds
@@ -29,11 +30,11 @@ last_obs = pygame.time.get_ticks() - obstacle_freq
 
 # weather response and city
 api_key = "e1c5932f6c96b34e1263878d1f8b7931"
-city = "Melbourn"
+city = "Amsterdam"
 url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
 res = requests.get(url).json()
 weather = res['weather'][0]['main']
-city = "bangkok"
+city = "Rome"
 
 # loads button images
 button_img = pygame.image.load("project_game/media/restart.png")
@@ -66,19 +67,22 @@ def select_bg(weather_res, city):
             clear_bg.append(bg_image)
         bg_images = clear_bg
 
-    if city == "bangkok":
-        city_bg = pygame.image.load(f"project_game/media/buildings.png").convert_alpha()
-        bg_images.append(city_bg)
-    elif city == "italy":
-        city_bg = pygame.image.load(f"project_game/media/italy.png").convert_alpha()
-        bg_images.append(city_bg)
-    elif city == "singapore":
-        city_bg = pygame.image.load(f"project_game/media/merlion.png").convert_alpha()
-        bg_images.append(city_bg)
+    if city == "Bangkok":
+        for i in range(2):
+            city_bg = pygame.image.load(f"project_game/media/thai-{i}.png").convert_alpha()
+            bg_images.append(city_bg)
+    elif city == "Tokyo":
+        for i in range(2):
+            city_bg = pygame.image.load(f"project_game/media/tokyo-{i}.png").convert_alpha()
+            bg_images.append(city_bg)
+    elif city == "Rome":
+        for i in range(2):
+            city_bg = pygame.image.load(f"project_game/media/rome-{i}.png").convert_alpha()
+            bg_images.append(city_bg)
 
     return bg_images
 
-def draw_background(bg_images, scroll_0, scroll_1, scroll_2, scroll_3, scroll_4):
+def draw_background(bg_images, scroll_0, scroll_1, scroll_2, scroll_3, scroll_4, scroll_5):
     tiles = math.ceil(SCREEN_WIDTH/800)+1
 
     for i in range(0, tiles):
@@ -91,6 +95,8 @@ def draw_background(bg_images, scroll_0, scroll_1, scroll_2, scroll_3, scroll_4)
         screen.blit(bg_images[3], (i*800 + (scroll_3), 0))
     for i in range(0, tiles):
         screen.blit(bg_images[4], (i*800 + (scroll_4), 0))
+    for i in range(0, tiles):
+        screen.blit(bg_images[5], (i*800 + (scroll_5), 0))
 
 def draw_foreground(scroll):
     tiles = math.ceil(SCREEN_WIDTH/800)+1
@@ -101,7 +107,7 @@ def draw_foreground(scroll):
 
 def reset_game():
     obstacle_group.empty()
-    player.rect.x = 100
+    player.rect.x = 75
     player.rect.y = 180
 
 # Player
@@ -199,13 +205,13 @@ ghost_group.add(player)
 button = Button(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, button_img)
 
 while run:
-
     if game_over == False:
         scroll_0 -= speed
         scroll_1 -= speed+0.2
         scroll_2 -= speed+0.5
         scroll_3 -= speed+0.8
         scroll_4 -= speed+1.1
+        scroll_5 -= speed+1.4
         scroll_ground -= speed+3
         if abs(scroll_0) > 800:
             scroll_0 = 0
@@ -217,6 +223,8 @@ while run:
             scroll_3 = 0
         elif abs(scroll_4) > 800:
             scroll_4 = 0
+        elif abs(scroll_5) > 800:
+            scroll_5 = 0
         elif abs(scroll_ground) > 800:
             scroll_ground = 0
 
@@ -231,7 +239,7 @@ while run:
 
     scenes = select_bg(weather, city)
     # draw background
-    draw_background(scenes, scroll_0, scroll_1, scroll_2, scroll_3, scroll_4)
+    draw_background(scenes, scroll_0, scroll_1, scroll_2, scroll_3, scroll_4, scroll_5)
 
     # draw player
     ghost_group.draw(screen)
