@@ -124,7 +124,7 @@ def main():
     bird_group.add(flappy)
 
     # weather response and city
-    response = "cloud"
+    response = "clear"
     city = "bangkok"
 
     while run:
