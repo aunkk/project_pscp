@@ -65,32 +65,33 @@ class Bird(pygame.sprite.Sprite):
             if self.rect.bottom < 220:
                 self.rect.y += int(self.vel)
 
-        # if game_over == False:
-        # jumping
-        key_pressed = pygame.key.get_pressed()
-        if key_pressed[pygame.K_SPACE] == True and self.clicked == False and self.rect.top > 100:
-            self.clicked == True
-            self.vel = -8
-            self.rect.y += int(self.vel)
-            # self.rect.x += 10
-        if key_pressed[pygame.K_SPACE] == False:
-            self.clicked = False
+        if game_over == False:
+            # jumping
+            key_pressed = pygame.key.get_pressed()
+            if key_pressed[pygame.K_SPACE] == True and self.clicked == False and self.rect.top > 100:
+                self.clicked == True
+                self.vel = -8
+                self.rect.y += int(self.vel)
+                # self.rect.x += 10
+            if key_pressed[pygame.K_SPACE] == False:
+                self.clicked = False
 
-        # animation
-        self.counter += 1
-        flap_cooldown = 15
-        if self.counter > flap_cooldown:
-            self.counter = 0
-            self.index += 1
-            if self.index >= len(self.images):
-                self.index = 0
-        self.image = self.images[self.index]
+            # animation
+            self.counter += 1
+            flap_cooldown = 15
+            if self.counter > flap_cooldown:
+                self.counter = 0
+                self.index += 1
+                if self.index >= len(self.images):
+                    self.index = 0
+            self.image = self.images[self.index]
 
         # rotate
         # self.image = pygame.transform.rotate(self.images[self.index], self.vel)
 
-    # else:
-    #     self.image = pygame.transform.rotate(self.images[self.index], -90)
+        else:
+            self.image = pygame.transform.rotate(self.images[self.index], -90)
+            self.rect.y += 1
 
 class obstacle(pygame.sprite.Sprite):
     def __init__(self, x, y):

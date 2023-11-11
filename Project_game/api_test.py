@@ -9,4 +9,4 @@ url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}
 res = requests.get(url).json()
 weather = res['weather'][0]['main']
 
-# print(res)
+# print(weather)
