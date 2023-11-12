@@ -26,6 +26,7 @@ scroll_5 = 0
 scroll_ground = 0
 speed = 1
 score = 0
+highest_score = 0
 hit = 0
 font = pygame.font.Font("Project_game/media/PressStart2P-Regular.ttf", 10)
 obstacle_freq = 2000 #milliseconds
@@ -130,8 +131,19 @@ def count_score():
             obstacle_freq = 500
 
 def draw_score(score):
-    text = font.render("score: " + str(score), True, (0, 0, 0))
+    text = font.render("pt %06d" %score, True, (0, 0, 0))
     screen.blit(text, (680, 18))
+
+def higher(val1, val2):
+    if val1 > val2:
+        return val1
+    return val2
+
+def draw_highest_score():
+    global score, highest_score
+    highest_score = higher(highest_score, score)
+    text = font.render("hi %06d" %highest_score, True, (0, 0, 0))
+    screen.blit(text, (680, 40))
 
 def draw_heart(heart_img):
     global hit, game_over
@@ -299,6 +311,9 @@ while run:
 
     # draw score counter
     draw_score(score)
+
+    # draw highest score
+    draw_highest_score()
 
     # draw heart counter
     draw_heart(heart_img)
