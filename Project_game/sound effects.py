@@ -52,6 +52,12 @@ for i in range(4):
     # img = pygame.transform.scale(img, (125, 25))
     heart_img.append(img)
 
+# loads sound effect
+jump_sfx = pygame.mixer.Sound("Project_game/media/jump.mp3")
+hit_sfx = pygame.mixer.Sound("Project_game/media/hit.mp3")
+game_start_sfx = pygame.mixer.Sound("Project_game/media/start game.mp3")
+game_over_sfx = pygame.mixer.Sound("Project_game/media/game over.mp3")
+
 def select_bg(weather_res, city):
     """background images list selector"""
     if weather_res == "Clear":
@@ -195,6 +201,8 @@ class Ghost(pygame.sprite.Sprite):
         if game_over == False:
             # jumping
             key_pressed = pygame.key.get_pressed()
+            if key_pressed[pygame.K_SPACE] == True:
+                jump_sfx.play()
             if key_pressed[pygame.K_SPACE] == True and self.clicked == False and self.rect.top > 100:
                 self.clicked == True
                 self.vel = -8
@@ -213,6 +221,8 @@ class Ghost(pygame.sprite.Sprite):
         else:
             self.image = pygame.transform.rotate(self.images[self.index], -90)
             self.rect.y += 1
+            if self.rect.y < 230:
+                game_over_sfx.play()
 
 # obstacles
 class obstacle(pygame.sprite.Sprite):
@@ -321,6 +331,7 @@ while run:
     #look for collision
     if pygame.sprite.groupcollide(ghost_group, obstacle_group, False, False) or player.rect.top < 0:
         hit += 1
+        hit_sfx.play()
 
     # check for game over and reset
     if game_over == True:
@@ -339,6 +350,7 @@ while run:
             run = False
         if event.type == pygame.KEYDOWN and flying == False and game_over == False:
             flying = True
+            game_start_sfx.play()
 
     pygame.display.update()
 pygame.quit()
