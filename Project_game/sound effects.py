@@ -34,12 +34,10 @@ last_obs = pygame.time.get_ticks() - obstacle_freq
 
 # weather response and city
 api_key = "e1c5932f6c96b34e1263878d1f8b7931"
-city = "California"
+city = "Rome"
 url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
 res = requests.get(url).json()
-# weather = res['weather'][0]['main']
-weather = "Clear"
-city = "Tokyo"
+weather = res['weather'][0]['main']
 
 # loads button images
 button_img = pygame.image.load("project_game/media/restart_button.png")
@@ -49,7 +47,7 @@ button_img = pygame.transform.scale(button_img, (100, 50))
 heart_img = []
 for i in range(4):
     img = pygame.image.load(f"Project_game/media/heart-{i}.png").convert_alpha()
-    # img = pygame.transform.scale(img, (125, 25))
+    img = pygame.transform.scale(img, (667, 250))
     heart_img.append(img)
 
 # loads sound effect
@@ -152,15 +150,17 @@ def draw_highest_score():
     screen.blit(text, (680, 40))
 
 def draw_heart(heart_img):
-    global hit, game_over
+    global hit, game_over, city, weather
+    text = font.render("%s's weather is %s" %(city, weather), True, (0, 0, 0))
+    screen.blit(text, (18, 18))
     if hit < 23:
-        screen.blit(heart_img[3], (0, 0))
+        screen.blit(heart_img[3], (5, 15))
     elif hit < 46:
-        screen.blit(heart_img[2], (0, 0))
+        screen.blit(heart_img[2], (5, 15))
     elif hit < 66:
-        screen.blit(heart_img[1], (0, 0))
+        screen.blit(heart_img[1], (5, 15))
     else:
-        screen.blit(heart_img[0], (0, 0))
+        screen.blit(heart_img[0], (5, 15))
         game_over = True
 
 def reset_game():
@@ -221,7 +221,7 @@ class Ghost(pygame.sprite.Sprite):
         else:
             self.image = pygame.transform.rotate(self.images[self.index], -90)
             self.rect.y += 1
-            if self.rect.y < 230:
+            if self.rect.y < 250:
                 game_over_sfx.play()
 
 # obstacles
