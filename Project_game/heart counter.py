@@ -48,7 +48,7 @@ button_img = pygame.transform.scale(button_img, (100, 50))
 heart_img = []
 for i in range(4):
     img = pygame.image.load(f"Project_game/media/heart-{i}.png").convert_alpha()
-    img = pygame.transform.scale(img, (125, 25))
+    # img = pygame.transform.scale(img, (125, 25))
     heart_img.append(img)
 
 def select_bg(weather_res, city):
@@ -136,13 +136,13 @@ def draw_score(score):
 def draw_heart(heart_img):
     global hit, game_over
     if hit < 23:
-        screen.blit(heart_img[3], (20, 20))
+        screen.blit(heart_img[3], (0, 0))
     elif hit < 46:
-        screen.blit(heart_img[2], (20, 20))
+        screen.blit(heart_img[2], (0, 0))
     elif hit < 66:
-        screen.blit(heart_img[1], (20, 20))
+        screen.blit(heart_img[1], (0, 0))
     else:
-        screen.blit(heart_img[0], (20, 20))
+        screen.blit(heart_img[0], (0, 0))
         game_over = True
 
 def reset_game():
@@ -249,7 +249,7 @@ ghost_group.add(player)
 button = Button(SCREEN_WIDTH//2-10, SCREEN_HEIGHT//2, button_img)
 
 while run:
-    if game_over == False:
+    if game_over == False and flying == True:
         scroll_0 -= speed
         scroll_1 -= speed+0.2
         scroll_2 -= speed+0.5
