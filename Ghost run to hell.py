@@ -12,7 +12,6 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 300
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Ghost Run To Hell 👻")
 
 ############# main menu #############
 def menu():
@@ -115,6 +114,7 @@ def choose_city():
     flying = False
     reset_game()
 
+    pygame.display.set_caption("Choose city")
     running = True
     city_name = "Choose your city!"
 
@@ -543,11 +543,15 @@ def main(city):
     global run, game_over, flying, score, speed,\
             scroll_0, scroll_1, scroll_2, scroll_3, scroll_4, scroll_5, scroll_ground, \
             last_obs, obstacle_freq, hit, weather
+
+    pygame.display.set_caption("Ghost Run To Hell 👻")
+
     # weather response and city
     api_key = "e1c5932f6c96b34e1263878d1f8b7931"
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
     res = requests.get(url).json()
     weather = res['weather'][0]['main']
+
     while run:
         if game_over == False and flying == True:
             scroll_0 -= speed
