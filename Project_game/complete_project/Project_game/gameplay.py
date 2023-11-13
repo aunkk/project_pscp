@@ -2,6 +2,7 @@ import pygame
 import math
 import requests
 import random
+import os
 import city_choose
 
 pygame.init()
@@ -41,8 +42,12 @@ res = requests.get(url).json()
 weather = res['weather'][0]['main']
 
 # loads button images
-button_img = pygame.image.load("project_game/media/restart_button.png")
-button_img = pygame.transform.scale(button_img, (100, 50))
+restart_button_img = pygame.image.load("project_game/media/restart_button.png")
+restart_button_img = pygame.transform.scale(restart_button_img, (100, 50))
+exit_button_img = pygame.image.load("project_game/media/exit_button.png")
+exit_button_img = pygame.transform.scale(exit_button_img, (95, 45))
+menu_button_img = pygame.image.load("project_game/media/menu_button.png")
+menu_button_img = pygame.transform.scale(menu_button_img, (100, 50))
 
 # load heart counter images
 heart_img = []
@@ -239,8 +244,56 @@ class obstacle(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
-# restsrt button
-class Button():
+# restart button
+class RestartButton():
+    def __init__(self, x, y, image):
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+    
+    def draw(self):
+
+        action = False
+
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+
+        # check for mouse hover the button
+        if self.rect.collidepoint(pos) == True:
+            if pygame.mouse.get_pressed()[0] == True:
+                action = True
+
+        #draw button
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+
+        return action
+
+# exit button
+class ExitButton():
+    def __init__(self, x, y, image):
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+    
+    def draw(self):
+
+        action = False
+
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+
+        # check for mouse hover the button
+        if self.rect.collidepoint(pos) == True:
+            if pygame.mouse.get_pressed()[0] == True:
+                action = True
+
+        #draw button
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+
+        return action
+
+# menu button
+class MenuButton():
     def __init__(self, x, y, image):
         self.image = image
         self.rect = self.image.get_rect()
@@ -269,7 +322,9 @@ obstacle_group = pygame.sprite.Group()
 player = Ghost(100, 205)
 ghost_group.add(player)
 
-button = Button(SCREEN_WIDTH//2-10, SCREEN_HEIGHT//2, button_img)
+restart_button = RestartButton(SCREEN_WIDTH//2-10, SCREEN_HEIGHT//2-50, restart_button_img)
+menu_button = MenuButton(SCREEN_WIDTH//2-10, SCREEN_HEIGHT//2, menu_button_img)
+exit_button = ExitButton(SCREEN_WIDTH//2-10, SCREEN_HEIGHT//2+50, exit_button_img)
 
 while run:
     if game_over == False and flying == True:
@@ -336,15 +391,20 @@ while run:
 
     # check for game over and reset
     if game_over == True:
+        restart_button.draw()
+        menu_button.draw()
+        exit_button.draw()
         key_pressed = False
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 key_pressed = True
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or exit_button.draw() == True:
                 run = False
-        if button.draw() == True or key_pressed == True:
+        if restart_button.draw() == True or key_pressed == True:
             game_over = False
             reset_game()
+        if menu_button.draw() == True:
+            os.system("python Project_game/city_choose.py")
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
