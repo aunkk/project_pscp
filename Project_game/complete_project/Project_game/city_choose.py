@@ -89,6 +89,8 @@ while running:
                     play_img.set_alpha(alpha_value)
                     #os.system("python project_game/change_color_button.py")
                     running = False
+                    if city_name == "Choose your city!":
+                        running = True
                 else:
                     italy_img.set_alpha(alpha_value)
                     tokyo_img.set_alpha(alpha_value)
@@ -101,6 +103,7 @@ while running:
         else:
             if city_name == "Choose your city!":
                 play_img.set_alpha(alpha_value)
+                running = True
             else:
                 play_img.set_alpha(255)
 
