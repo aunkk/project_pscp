@@ -80,7 +80,7 @@ while running:
                     # Start the game (add your game code here)
                     print("Starting the game!")
                     # Desktop/project_pscp-main/project_pscp-1/no main
-                    os.system("python Project_game/gameplay.py")
+                    os.system("python Project_game/complete_project/Project_game/gameplay.py")
                     running = False
                 elif exit_rect.collidepoint(cursor_ckeck):
                     print("Get out")

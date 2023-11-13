@@ -43,7 +43,7 @@ weather = res['weather'][0]['main']
 
 # loads button images
 restart_button_img = pygame.image.load("project_game/media/restart_button.png")
-restart_button_img = pygame.transform.scale(restart_button_img, (100, 50))
+restart_button_img = pygame.transform.scale(restart_button_img, (110, 55))
 exit_button_img = pygame.image.load("project_game/media/exit_button.png")
 exit_button_img = pygame.transform.scale(exit_button_img, (95, 45))
 menu_button_img = pygame.image.load("project_game/media/menu_button.png")
@@ -322,7 +322,7 @@ obstacle_group = pygame.sprite.Group()
 player = Ghost(100, 205)
 ghost_group.add(player)
 
-restart_button = RestartButton(SCREEN_WIDTH//2-10, SCREEN_HEIGHT//2-50, restart_button_img)
+restart_button = RestartButton(SCREEN_WIDTH//2-10, SCREEN_HEIGHT//2-53, restart_button_img)
 menu_button = MenuButton(SCREEN_WIDTH//2-10, SCREEN_HEIGHT//2, menu_button_img)
 exit_button = ExitButton(SCREEN_WIDTH//2-10, SCREEN_HEIGHT//2+50, exit_button_img)
 
@@ -404,7 +404,7 @@ while run:
             game_over = False
             reset_game()
         if menu_button.draw() == True:
-            os.system("python Project_game/city_choose.py")
+            os.system("python Project_game/complete_project/Project_game/main_menu.py")
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
