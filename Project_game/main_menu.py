@@ -20,7 +20,7 @@ center_y = screen.get_rect().centery + 10
 custom_font1 = pygame.font.FontType("project_game/media/PressStart2P-Regular.ttf", 30)
 # Create a window
 
-bg = pygame.image.load("project_game/media/main_menu_bg.png").convert_alpha()
+bg = pygame.image.load("project_game/media/background_sign.png").convert_alpha()
 game_name = pygame.image.load("project_game/media/game_name.png").convert_alpha()
 game_rect = game_name.get_rect(center=(center_x, center_y-50))
 start_img = pygame.image.load("project_game/media/start_button.png").convert_alpha()
