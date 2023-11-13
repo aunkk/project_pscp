@@ -621,7 +621,7 @@ def main(city):
             exit_button.draw()
             key_pressed = False
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
+                if key[pygame.K_SPACE]:
                     key_pressed = True
                 if event.type == pygame.QUIT or exit_button.draw() == True:
                     run = False
