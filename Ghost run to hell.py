@@ -632,10 +632,11 @@ def main(city):
             if menu_button.draw() == True:
                 choose_city()
 
+        key = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.KEYDOWN and flying == False and game_over == False:
+            if key[pygame.K_SPACE] and flying == False and game_over == False:
                 flying = True
                 game_start_sfx.play()
 
