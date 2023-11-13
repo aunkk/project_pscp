@@ -2,7 +2,6 @@ import pygame
 import math
 import requests
 import random
-import os
 
 pygame.init()
 clock = pygame.time.Clock()
