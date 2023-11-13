@@ -87,7 +87,7 @@ while running:
                     city_name = "Bangkok"
                 elif play_rect.collidepoint(my_mouse):
                     play_img.set_alpha(alpha_value)
-                    os.system("python project_game/change_color_button.py")
+                    #os.system("python project_game/change_color_button.py")
                     running = False
                 else:
                     italy_img.set_alpha(alpha_value)
